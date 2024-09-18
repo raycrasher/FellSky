@@ -1,0 +1,19 @@
+[gd_scene load_steps=4 format=3 uid="uid://coanu61fkssmh"]
+
+[ext_resource type="Material" uid="uid://bymrpdywk5kwo" path="res://Resources/Weapons/Projectiles/muzzleflash_process_material.tres" id="1_mpem1"]
+[ext_resource type="Material" uid="uid://db14mhubenpt6" path="res://Resources/Weapons/Projectiles/muzzleflash_material.tres" id="2_5ufso"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_egj36"]
+material = ExtResource("2_5ufso")
+radius = 0.01
+height = 0.05
+radial_segments = 4
+rings = 0
+
+[node name="Node3D" type="GPUParticles3D"]
+emitting = false
+lifetime = 0.2
+one_shot = true
+explosiveness = 0.8
+process_material = ExtResource("1_mpem1")
+draw_pass_1 = SubResource("CapsuleMesh_egj36")

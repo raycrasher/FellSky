@@ -1,0 +1,16 @@
+[gd_resource type="VisualShader" load_steps=2 format=3 uid="uid://cm3kdooqnhm75"]
+
+[sub_resource type="VisualShaderNodeInput" id="VisualShaderNodeInput_2clfd"]
+
+[resource]
+code = "shader_type fog;
+
+
+
+void fog() {
+}
+"
+graph_offset = Vector2(-239.2, -25.1313)
+mode = 4
+nodes/fog/2/node = SubResource("VisualShaderNodeInput_2clfd")
+nodes/fog/2/position = Vector2(-60, 120)

@@ -1,0 +1,15 @@
+[gd_resource type="Resource" load_steps=2 format=3 uid="uid://cq33eyun6l0bm"]
+
+[ext_resource type="Script" path="res://Source/Scripts/ShipData.cs" id="1_atgm6"]
+
+[resource]
+script = ExtResource("1_atgm6")
+HullName = "eagle"
+CruiseSpeed = 1000.0
+ManeuverSpeed = 200.0
+TurnSpeed = 90.0
+CruiseAccel = 10.0
+ManeuverAccel = 40.0
+TurnAccel = 90.0
+Health = 8000.0
+Armor = 500.0

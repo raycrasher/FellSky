@@ -1,0 +1,270 @@
+[gd_scene load_steps=37 format=3 uid="uid://b6x5is360ehe7"]
+
+[ext_resource type="Script" path="res://Source/Scripts/WeatherController.cs" id="1_upw11"]
+[ext_resource type="Shader" uid="uid://33cobf2321pu" path="res://Resources/Shaders/lower_cloud_layer.tres" id="2_hlntx"]
+[ext_resource type="Script" path="res://Source/Scripts/ShipController.cs" id="3_1q0h2"]
+[ext_resource type="Texture2D" uid="uid://jq6dtiub5t2i" path="res://Resources/Effects/cloudset.png" id="3_irare"]
+[ext_resource type="PackedScene" uid="uid://c6vhj088x77ra" path="res://Resources/Ships/eagle.glb" id="3_w6lxr"]
+[ext_resource type="PackedScene" uid="uid://b2qlkrtpj7prs" path="res://Resources/Thrusters/thruster_round.tscn" id="4_fwmq5"]
+[ext_resource type="Resource" uid="uid://cq33eyun6l0bm" path="res://Resources/Ships/eagle_data.tres" id="4_veyuy"]
+[ext_resource type="Texture2D" uid="uid://bm4nw7u7xvk5b" path="res://Resources/Effects/cloudset_n.png" id="4_wjws6"]
+[ext_resource type="Texture2D" uid="uid://djywb0e5lboel" path="res://Resources/Effects/cloudset_n2.png" id="5_jlux0"]
+[ext_resource type="Script" path="res://Source/Scripts/PlayerController.cs" id="6_y6rr1"]
+[ext_resource type="Script" path="res://Source/Scripts/WeaponMount.cs" id="10_bj6hl"]
+[ext_resource type="PackedScene" uid="uid://c7bef87hnfx0m" path="res://Resources/Weapons/laser_turret.tscn" id="11_byh5w"]
+[ext_resource type="PackedScene" uid="uid://p2ke40ubdrs" path="res://Resources/Weapons/Projectiles/muzzle_flash.tscn" id="12_kfmku"]
+[ext_resource type="Script" path="res://Source/Scripts/PlayerTargetCursor.cs" id="14_2df4s"]
+[ext_resource type="Material" uid="uid://bu41l7ubqvvjc" path="res://Resources/cloudfogmaterial.tres" id="15_ld5jv"]
+[ext_resource type="PackedScene" uid="uid://dh0ept6l1xj6p" path="res://Resources/UI/targeting_cursor.tscn" id="15_xeqwk"]
+[ext_resource type="PackedScene" uid="uid://dq5dykyyrch5t" path="res://Resources/Environment/rock4.glb" id="16_8p7j6"]
+[ext_resource type="PackedScene" uid="uid://b7r2h3ywr2b0r" path="res://Resources/Environment/rock3.glb" id="17_c1tt3"]
+[ext_resource type="PackedScene" uid="uid://ca0utwddqn52x" path="res://Resources/Environment/rock1.glb" id="18_5bo40"]
+[ext_resource type="PackedScene" uid="uid://bjpsaaqfs4u4o" path="res://Resources/UI/CombatHud.tscn" id="19_ur5m5"]
+[ext_resource type="PackedScene" uid="uid://bmicugetmdfbs" path="res://Resources/Ships/jormugandr.glb" id="20_ecmn2"]
+[ext_resource type="PackedScene" uid="uid://csrhsohiolrpn" path="res://Resources/Environment/rock_slab1.glb" id="21_8hvp7"]
+[ext_resource type="PackedScene" uid="uid://tcljruefg0nw" path="res://Resources/Ships/components/dual_railcannon.glb" id="21_jixf3"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_1ggib"]
+
+[sub_resource type="Sky" id="Sky_dmbyj"]
+sky_material = SubResource("ProceduralSkyMaterial_1ggib")
+
+[sub_resource type="Environment" id="Environment_x40da"]
+background_mode = 2
+sky = SubResource("Sky_dmbyj")
+ambient_light_source = 3
+tonemap_mode = 2
+ssao_enabled = true
+ssao_intensity = 3.0
+sdfgi_enabled = true
+sdfgi_use_occlusion = true
+sdfgi_y_scale = 0
+glow_enabled = true
+glow_bloom = 0.1
+glow_blend_mode = 1
+volumetric_fog_enabled = true
+volumetric_fog_density = 0.02
+volumetric_fog_albedo = Color(0.340826, 0.379828, 0.511796, 1)
+volumetric_fog_emission_energy = 50.0
+adjustment_enabled = true
+
+[sub_resource type="CameraAttributesPhysical" id="CameraAttributesPhysical_0ah51"]
+
+[sub_resource type="QuadMesh" id="QuadMesh_k6lgl"]
+size = Vector2(500, 500)
+subdivide_width = 300
+subdivide_depth = 300
+orientation = 1
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_heotm"]
+frequency = 0.015
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_k05qx"]
+width = 2048
+height = 2048
+seamless = true
+noise = SubResource("FastNoiseLite_heotm")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_24l2b"]
+render_priority = 0
+shader = ExtResource("2_hlntx")
+shader_parameter/VerticalScale = 3.0
+shader_parameter/Color = Color(0.244386, 0.0917012, 0.0455973, 1)
+shader_parameter/Noise = SubResource("NoiseTexture2D_k05qx")
+
+[sub_resource type="Gradient" id="Gradient_xux0t"]
+offsets = PackedFloat32Array(0, 0.329268, 0.716463, 1)
+colors = PackedColorArray(0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_eidhn"]
+gradient = SubResource("Gradient_xux0t")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_v4dl6"]
+lifetime_randomness = 0.5
+emission_shape = 3
+emission_box_extents = Vector3(20, 6, 20)
+angle_max = 10.0
+spread = 5.0
+initial_velocity_max = 0.5
+gravity = Vector3(0, 0, 0)
+scale_min = 1.5
+scale_max = 2.0
+color = Color(0.631373, 0.745098, 1, 1)
+color_ramp = SubResource("GradientTexture1D_eidhn")
+anim_offset_max = 1.0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_056nf"]
+transparency = 1
+depth_draw_mode = 2
+specular_mode = 1
+vertex_color_use_as_albedo = true
+albedo_texture = ExtResource("3_irare")
+roughness = 0.78
+normal_enabled = true
+normal_texture = ExtResource("5_jlux0")
+heightmap_texture = ExtResource("4_wjws6")
+disable_receive_shadows = true
+billboard_mode = 3
+billboard_keep_scale = true
+particles_anim_h_frames = 4
+particles_anim_v_frames = 4
+particles_anim_loop = false
+
+[sub_resource type="QuadMesh" id="QuadMesh_egcqp"]
+material = SubResource("StandardMaterial3D_056nf")
+size = Vector2(10, 10)
+
+[node name="root" type="Node3D"]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_x40da")
+camera_attributes = SubResource("CameraAttributesPhysical_0ah51")
+
+[node name="weather" type="Node" parent="."]
+script = ExtResource("1_upw11")
+
+[node name="lower_sky" type="MeshInstance3D" parent="weather"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -20, 0)
+visible = false
+mesh = SubResource("QuadMesh_k6lgl")
+surface_material_override/0 = SubResource("ShaderMaterial_24l2b")
+
+[node name="SUN" type="DirectionalLight3D" parent="weather"]
+transform = Transform3D(1, 0, 0, 0, 0.98396, 0.17839, 0, -0.17839, 0.98396, 0, 4.23781, 0)
+rotation_edit_mode = 1
+light_volumetric_fog_energy = 8.959
+shadow_enabled = true
+shadow_transmittance_bias = 6.286
+
+[node name="clouds" type="Node" parent="weather"]
+
+[node name="GPUParticles3D" type="GPUParticles3D" parent="weather/clouds"]
+visible = false
+extra_cull_margin = 5.0
+visibility_range_fade_mode = 1
+amount = 100
+lifetime = 30.0
+preprocess = 30.0
+visibility_aabb = AABB(-30, -4, -30, 60, 8, 60)
+draw_order = 3
+process_material = SubResource("ParticleProcessMaterial_v4dl6")
+draw_pass_1 = SubResource("QuadMesh_egcqp")
+
+[node name="objects" type="Node" parent="."]
+
+[node name="eagle" type="RigidBody3D" parent="objects"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.0405166, 0, -0.172807)
+axis_lock_linear_y = true
+axis_lock_angular_x = true
+axis_lock_angular_z = true
+mass = 50.0
+gravity_scale = 0.0
+linear_damp = 1.0
+angular_damp = 2.0
+script = ExtResource("3_1q0h2")
+ShipData = ExtResource("4_veyuy")
+
+[node name="eagle" parent="objects/eagle" instance=ExtResource("3_w6lxr")]
+transform = Transform3D(0.1, 0, 0, 0, 0.0998742, 0.00501397, 0, -0.00501397, 0.0998742, 0, 0, 0)
+
+[node name="CollisionPolygon3D" type="CollisionPolygon3D" parent="objects/eagle"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
+depth = 0.2
+polygon = PackedVector2Array(-0.176705, 1.28441, -0.712683, -0.19327, -0.209633, -0.891999, 0.211689, -0.882571, 0.730686, -0.278567, 0.177287, 1.273)
+
+[node name="thruster_round" parent="objects/eagle" instance=ExtResource("4_fwmq5")]
+transform = Transform3D(2, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.0448943, -0.835966)
+
+[node name="thruster_round4" parent="objects/eagle" instance=ExtResource("4_fwmq5")]
+transform = Transform3D(0.7, 0, 0, 0, 0.7, 0, 0, 0, 0.7, 0.251448, -0.0448943, -0.835966)
+
+[node name="thruster_round5" parent="objects/eagle" instance=ExtResource("4_fwmq5")]
+transform = Transform3D(0.7, 0, 0, 0, 0.7, 0, 0, 0, 0.7, -0.251, -0.045, -0.836)
+
+[node name="thruster_round2" parent="objects/eagle" instance=ExtResource("4_fwmq5")]
+transform = Transform3D(0.492404, 0, -0.0868241, 0, 0.5, 0, 0.0868241, 0, 0.492404, 0.378101, -0.0219141, -0.685308)
+
+[node name="thruster_round3" parent="objects/eagle" instance=ExtResource("4_fwmq5")]
+transform = Transform3D(0.492404, 0, 0.0868241, 0, 0.5, 0, -0.0868241, 0, 0.492404, -0.378, -0.022, -0.685)
+
+[node name="topweaponmount" type="Node3D" parent="objects/eagle"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.148244, 0)
+script = ExtResource("10_bj6hl")
+Flags = 3
+FireArc = 90.0
+
+[node name="LaserTurret" parent="objects/eagle/topweaponmount" instance=ExtResource("11_byh5w")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.0940424, 0)
+RotateSpeed = 90.0
+Cooldown = 0.05
+MuzzleSpeed = 30.0
+Spread = 5.0
+ProjectileScale = Vector3(0.4, 1, 0.4)
+MuzzleFlash = ExtResource("12_kfmku")
+MuzzleFlashScale = Vector3(0.3, 0.3, 0.4)
+MuzzleFlashDuration = 0.1
+
+[node name="SpotLight3D" type="SpotLight3D" parent="objects/eagle"]
+transform = Transform3D(1, 0, 0, 0, -1, -8.74228e-08, 0, 8.74228e-08, -1, 0, 0, 1.24565)
+spot_range = 10.0
+spot_angle = 18.13
+
+[node name="Node3D" type="Node3D" parent="objects/eagle"]
+
+[node name="player" type="Node3D" parent="objects" node_paths=PackedStringArray("TargetingCursor", "Ship")]
+script = ExtResource("6_y6rr1")
+TargetingCursor = NodePath("targeting_cursor")
+Ship = NodePath("../eagle")
+CameraMinZoom = 5.0
+CameraMaxZoom = 100.0
+CameraZoomSpeed = 100.0
+
+[node name="camera" type="Camera3D" parent="objects/player"]
+transform = Transform3D(-1, 8.21506e-08, -2.99003e-08, 0, 0.34202, 0.939693, 8.74228e-08, 0.939693, -0.34202, 0, 10, -6.21854)
+fov = 50.0
+
+[node name="targeting_cursor" type="Node3D" parent="objects/player" node_paths=PackedStringArray("Camera")]
+script = ExtResource("14_2df4s")
+Camera = NodePath("../camera")
+
+[node name="target_cursor" parent="objects/player/targeting_cursor" instance=ExtResource("15_xeqwk")]
+transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, 0, 0, 0)
+
+[node name="clouds" type="Node3D" parent="objects"]
+
+[node name="FogVolume2" type="FogVolume" parent="objects/clouds"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 5.80525, 0, -1.03786)
+size = Vector3(100, 15, 100)
+shape = 0
+material = ExtResource("15_ld5jv")
+
+[node name="island" type="Node3D" parent="objects"]
+
+[node name="rock4" parent="objects/island" instance=ExtResource("16_8p7j6")]
+transform = Transform3D(2.73209, 0, 1.23922, 0, 3, 0, -1.23922, 0, 2.73209, -27.6452, -2.19425, -24.8264)
+
+[node name="rock3" parent="objects/island" instance=ExtResource("17_c1tt3")]
+transform = Transform3D(3, 0, 0, 0, 2, 0, 0, 0, 2, -4.91252, -3.09117, -24.2124)
+
+[node name="rock7" parent="objects/island" instance=ExtResource("17_c1tt3")]
+transform = Transform3D(1.34631, 0, 1.479, 0, 4, 0, -1.479, 0, 1.34631, -6.39844, -0.519093, -29.229)
+
+[node name="rock5" parent="objects/island" instance=ExtResource("16_8p7j6")]
+transform = Transform3D(4.17453, 3.35276e-08, 2.75196, 0.198004, 0.997408, -0.300358, -2.74483, 0.0719501, 4.16371, -14.0255, -2.91233, -21.8879)
+
+[node name="rock1" parent="objects/island" instance=ExtResource("18_5bo40")]
+transform = Transform3D(2, 0, 0, 0, 1.445, 0, 0, 0, 2, -21.6799, -4.31016, -15.7313)
+
+[node name="rock6" parent="objects/island" instance=ExtResource("16_8p7j6")]
+transform = Transform3D(6, 0, 0, 0, 6, 0, 0, 0, 6, -15.5128, -7.07093, -25.4107)
+
+[node name="Hud" parent="." instance=ExtResource("19_ur5m5")]
+
+[node name="jormugandr" parent="." instance=ExtResource("20_ecmn2")]
+transform = Transform3D(1.25024, 0, -1.56106, 0, 2, 0, 1.56106, 0, 1.25024, -16.3456, -4.48833, 9.13338)
+
+[node name="dual_railcannon" parent="jormugandr" instance=ExtResource("21_jixf3")]
+transform = Transform3D(0.0404412, 0, 0.195869, 0, 0.2, 0, -0.195869, 0, 0.0404412, 1.5339, 0.991784, 0.0360403)
+
+[node name="rock_slab1" parent="." instance=ExtResource("21_8hvp7")]
+transform = Transform3D(3, 0, 0, 0, 1, 0, 0, 0, 3, -14.3796, -2.31742, -32.9896)

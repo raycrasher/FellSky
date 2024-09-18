@@ -1,0 +1,24 @@
+[gd_scene format=3 uid="uid://dxi30sahjjk7c"]
+
+[node name="Ships" type="MarginContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+metadata/_tab_index = 1
+
+[node name="ShipList" type="MarginContainer" parent="."]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+size_flags_horizontal = 0
+
+[node name="ItemList" type="ItemList" parent="ShipList"]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="ShipList/ItemList"]
+layout_mode = 0
+offset_left = 4.0
+offset_top = 3.0
+offset_right = 195.0
+offset_bottom = 40.0

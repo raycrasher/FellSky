@@ -1,0 +1,49 @@
+id: eagle
+name: Eagle
+description: Sporting two hangars, a good set of turrets, a large forward 
+	hardpoint, and ample space for cargo and support equipment, the Eagle is a 
+	good all-arounder for doing missions in the harsh Olympian sky.
+	
+	The Eagle is the quintessential sky-captain's airship. Brought to Olympus 
+	during the Third Wave, it takes the lessons of the previous colonists and 
+	condensed them into a craft capable of facing the bulk of what Olympus can 
+	throw at it. Almost all successful captains has had a stint on working on 
+	or captaining one.
+	
+	It has since been superseded by newer, more capable models, but the Eagle 
+	is still a popular choice for many captains in Olympus.
+
+# mass, in tons
+mass: 550
+turrets:
+  T1:
+	name: Left
+	type: turret
+	size: medium
+  T2:
+	name: Right 
+	type: turret
+	size: medium
+  T3:
+	name: Top
+	type: turret
+	size: small
+  T4:
+	name: Bottom
+	type: turret
+	size: small
+  H1:
+	name: Spinal
+	type: hardpoint
+	size: medium
+  H2:
+	name: Front Left
+	type: hardpoint
+	size: small
+  H3:
+	name: Front Right
+	type: hardpoint
+	size: small
+  ML1:
+	name: Left Missile Launcher
+	type:  

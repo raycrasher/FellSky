@@ -1,0 +1,16 @@
+[gd_resource type="CapsuleMesh" load_steps=2 format=3 uid="uid://ctys2vps202a0"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_keggd"]
+specular_mode = 2
+albedo_color = Color(0.721964, 0.214699, 0, 1)
+emission_enabled = true
+emission = Color(1, 0.710099, 0.586473, 1)
+emission_energy_multiplier = 16.0
+disable_receive_shadows = true
+
+[resource]
+material = SubResource("StandardMaterial3D_keggd")
+radius = 0.05
+height = 0.3
+radial_segments = 6
+rings = 1

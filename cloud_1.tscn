@@ -1,0 +1,23 @@
+[gd_scene load_steps=3 format=3 uid="uid://ym74xyf7466i"]
+
+[ext_resource type="PackedScene" uid="uid://ca6253syjivps" path="res://Resources/Environment/cloud1.glb" id="1_epg6h"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_2rcr5"]
+shading_mode = 2
+diffuse_mode = 2
+albedo_color = Color(0.641934, 0.641934, 0.641934, 1)
+metallic_specular = 0.63
+rim_enabled = true
+rim = 0.02
+rim_tint = 0.2
+subsurf_scatter_enabled = true
+subsurf_scatter_strength = 1.0
+subsurf_scatter_transmittance_color = Color(0.609441, 0.132847, 0.3374, 1)
+subsurf_scatter_transmittance_depth = 1.965
+subsurf_scatter_transmittance_boost = 0.89
+distance_fade_max_distance = 2.0
+
+[node name="cloud1" instance=ExtResource("1_epg6h")]
+
+[node name="Cube" parent="." index="0"]
+material_override = SubResource("StandardMaterial3D_2rcr5")

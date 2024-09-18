@@ -1,0 +1,203 @@
+[gd_resource type="VisualShader" load_steps=16 format=3 uid="uid://33cobf2321pu"]
+
+[sub_resource type="VisualShaderNodeTexture" id="VisualShaderNodeTexture_mdtox"]
+source = 5
+
+[sub_resource type="VisualShaderNodeInput" id="VisualShaderNodeInput_4dl7w"]
+input_name = "uv"
+
+[sub_resource type="VisualShaderNodeVectorOp" id="VisualShaderNodeVectorOp_syjs2"]
+default_input_values = [0, Quaternion(0, 0, 0, 0), 1, Quaternion(0, 0, 0, 0)]
+op_type = 2
+operator = 2
+
+[sub_resource type="VisualShaderNodeColorParameter" id="VisualShaderNodeColorParameter_f8u60"]
+parameter_name = "Color"
+
+[sub_resource type="VisualShaderNodeParameterRef" id="VisualShaderNodeParameterRef_ils8d"]
+parameter_name = "Noise"
+param_type = 9
+
+[sub_resource type="VisualShaderNodeGlobalExpression" id="VisualShaderNodeGlobalExpression_l0upe"]
+size = Vector2(951.437, 286.428)
+expression = "vec3 getNormal(vec2 uv, sampler2D height_map, float height_scale) {
+    float texelSize = 1.0 / float(textureSize(height_map, 0).x);
+    float t = texture(height_map, uv + vec2(texelSize * vec2(0.0, -1.0))).r * height_scale;
+    float r = texture(height_map, uv + vec2(texelSize * vec2(1.0, 0.0))).r * height_scale;
+    float l = texture(height_map, uv + vec2(texelSize * vec2(-1.0, 0.0))).r * height_scale;
+    float b = texture(height_map, uv + vec2(texelSize * vec2(0.0, 1.0))).r * height_scale;
+
+    return -normalize(vec3(2.0 * (r - l), -4.0, 2.0 * (b - t)));
+}"
+
+[sub_resource type="VisualShaderNodeExpression" id="VisualShaderNodeExpression_jbcn0"]
+size = Vector2(666.872, 276.909)
+expression = "result = getNormal(uv, height_map, height_scale * 1.0);"
+
+[sub_resource type="VisualShaderNodeInput" id="VisualShaderNodeInput_5nbdy"]
+input_name = "uv"
+
+[sub_resource type="VisualShaderNodeTexture" id="VisualShaderNodeTexture_7v2yf"]
+expanded_output_ports = [0]
+source = 5
+
+[sub_resource type="VisualShaderNodeTexture2DParameter" id="VisualShaderNodeTexture2DParameter_itcoc"]
+parameter_name = "Noise"
+
+[sub_resource type="VisualShaderNodeInput" id="VisualShaderNodeInput_wvlas"]
+expanded_output_ports = [0]
+input_name = "vertex"
+
+[sub_resource type="VisualShaderNodeVectorCompose" id="VisualShaderNodeVectorCompose_6gotm"]
+
+[sub_resource type="VisualShaderNodeFloatOp" id="VisualShaderNodeFloatOp_kbq8e"]
+
+[sub_resource type="VisualShaderNodeFloatParameter" id="VisualShaderNodeFloatParameter_4ak1a"]
+parameter_name = "VerticalScale"
+
+[sub_resource type="VisualShaderNodeFloatOp" id="VisualShaderNodeFloatOp_u7y4s"]
+operator = 2
+
+[resource]
+code = "shader_type spatial;
+render_mode blend_mix, depth_draw_opaque, cull_back, diffuse_lambert, specular_schlick_ggx;
+
+uniform sampler2D Noise;
+uniform float VerticalScale;
+uniform vec4 Color : source_color;
+
+
+// GlobalExpression:0
+	vec3 getNormal(vec2 uv, sampler2D height_map, float height_scale) {
+	    float texelSize = 1.0 / float(textureSize(height_map, 0).x);
+	    float t = texture(height_map, uv + vec2(texelSize * vec2(0.0, -1.0))).r * height_scale;
+	    float r = texture(height_map, uv + vec2(texelSize * vec2(1.0, 0.0))).r * height_scale;
+	    float l = texture(height_map, uv + vec2(texelSize * vec2(-1.0, 0.0))).r * height_scale;
+	    float b = texture(height_map, uv + vec2(texelSize * vec2(0.0, 1.0))).r * height_scale;
+	
+	    return -normalize(vec3(2.0 * (r - l), -4.0, 2.0 * (b - t)));
+	}
+
+void vertex() {
+// Input:5
+	vec3 n_out5p0 = VERTEX;
+	float n_out5p1 = n_out5p0.r;
+	float n_out5p2 = n_out5p0.g;
+	float n_out5p3 = n_out5p0.b;
+
+
+// Input:12
+	vec2 n_out12p0 = UV;
+
+
+	vec4 n_out2p0;
+// Texture2D:2
+	n_out2p0 = texture(Noise, n_out12p0);
+	float n_out2p1 = n_out2p0.r;
+
+
+// FloatOp:7
+	float n_out7p0 = n_out2p1 + n_out5p2;
+
+
+// FloatParameter:8
+	float n_out8p0 = VerticalScale;
+
+
+// FloatOp:9
+	float n_out9p0 = n_out7p0 * n_out8p0;
+
+
+// VectorCompose:6
+	vec3 n_out6p0 = vec3(n_out5p1, n_out9p0, n_out5p3);
+
+
+	vec3 n_out11p0;
+// Expression:11
+	n_out11p0 = vec3(0.0, 0.0, 0.0);
+	{
+		n_out11p0 = getNormal(n_out12p0, Noise, n_out8p0 * 1.0);
+	}
+
+
+// Output:0
+	VERTEX = n_out6p0;
+	NORMAL = n_out11p0;
+
+
+}
+
+void fragment() {
+// Input:4
+	vec2 n_out4p0 = UV;
+
+
+	vec4 n_out3p0;
+// Texture2D:3
+	n_out3p0 = texture(Noise, n_out4p0);
+
+
+// ColorParameter:7
+	vec4 n_out7p0 = Color;
+
+
+// VectorOp:6
+	vec4 n_out6p0 = n_out3p0 * n_out7p0;
+
+
+// Output:0
+	ALBEDO = vec3(n_out6p0.xyz);
+
+
+}
+"
+nodes/vertex/0/position = Vector2(960, 40)
+nodes/vertex/2/node = SubResource("VisualShaderNodeTexture_7v2yf")
+nodes/vertex/2/position = Vector2(-100, 80)
+nodes/vertex/3/node = SubResource("VisualShaderNodeTexture2DParameter_itcoc")
+nodes/vertex/3/position = Vector2(-580, 100)
+nodes/vertex/5/node = SubResource("VisualShaderNodeInput_wvlas")
+nodes/vertex/5/position = Vector2(-160, 360)
+nodes/vertex/6/node = SubResource("VisualShaderNodeVectorCompose_6gotm")
+nodes/vertex/6/position = Vector2(500, 200)
+nodes/vertex/7/node = SubResource("VisualShaderNodeFloatOp_kbq8e")
+nodes/vertex/7/position = Vector2(200, 140)
+nodes/vertex/8/node = SubResource("VisualShaderNodeFloatParameter_4ak1a")
+nodes/vertex/8/position = Vector2(-140, 520)
+nodes/vertex/9/node = SubResource("VisualShaderNodeFloatOp_u7y4s")
+nodes/vertex/9/position = Vector2(320, 460)
+nodes/vertex/10/node = SubResource("VisualShaderNodeGlobalExpression_l0upe")
+nodes/vertex/10/position = Vector2(-1180, 780)
+nodes/vertex/10/size = Vector2(951.437, 286.428)
+nodes/vertex/10/input_ports = ""
+nodes/vertex/10/output_ports = ""
+nodes/vertex/10/expression = "vec3 getNormal(vec2 uv, sampler2D height_map, float height_scale) {
+    float texelSize = 1.0 / float(textureSize(height_map, 0).x);
+    float t = texture(height_map, uv + vec2(texelSize * vec2(0.0, -1.0))).r * height_scale;
+    float r = texture(height_map, uv + vec2(texelSize * vec2(1.0, 0.0))).r * height_scale;
+    float l = texture(height_map, uv + vec2(texelSize * vec2(-1.0, 0.0))).r * height_scale;
+    float b = texture(height_map, uv + vec2(texelSize * vec2(0.0, 1.0))).r * height_scale;
+
+    return -normalize(vec3(2.0 * (r - l), -4.0, 2.0 * (b - t)));
+}"
+nodes/vertex/11/node = SubResource("VisualShaderNodeExpression_jbcn0")
+nodes/vertex/11/position = Vector2(160, 640)
+nodes/vertex/11/size = Vector2(666.872, 276.909)
+nodes/vertex/11/input_ports = "0,3,uv;1,8,height_map;2,0,height_scale;"
+nodes/vertex/11/output_ports = "0,4,result;"
+nodes/vertex/11/expression = "result = getNormal(uv, height_map, height_scale * 1.0);"
+nodes/vertex/12/node = SubResource("VisualShaderNodeInput_5nbdy")
+nodes/vertex/12/position = Vector2(-560, 440)
+nodes/vertex/connections = PackedInt32Array(3, 0, 2, 2, 2, 1, 7, 0, 5, 2, 7, 1, 5, 1, 6, 0, 5, 3, 6, 2, 6, 0, 0, 0, 8, 0, 9, 1, 7, 0, 9, 0, 9, 0, 6, 1, 12, 0, 11, 0, 12, 0, 2, 0, 11, 0, 0, 1, 3, 0, 11, 1, 8, 0, 11, 2)
+nodes/fragment/0/position = Vector2(1440, -40)
+nodes/fragment/3/node = SubResource("VisualShaderNodeTexture_mdtox")
+nodes/fragment/3/position = Vector2(40, 140)
+nodes/fragment/4/node = SubResource("VisualShaderNodeInput_4dl7w")
+nodes/fragment/4/position = Vector2(-340, 60)
+nodes/fragment/6/node = SubResource("VisualShaderNodeVectorOp_syjs2")
+nodes/fragment/6/position = Vector2(940, 400)
+nodes/fragment/7/node = SubResource("VisualShaderNodeColorParameter_f8u60")
+nodes/fragment/7/position = Vector2(-220, 440)
+nodes/fragment/8/node = SubResource("VisualShaderNodeParameterRef_ils8d")
+nodes/fragment/8/position = Vector2(-160, 300)
+nodes/fragment/connections = PackedInt32Array(4, 0, 3, 0, 3, 0, 6, 0, 6, 0, 0, 0, 7, 0, 6, 1, 8, 0, 3, 2)

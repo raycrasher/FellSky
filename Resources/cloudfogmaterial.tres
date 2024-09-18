@@ -1,0 +1,19 @@
+[gd_resource type="ShaderMaterial" load_steps=4 format=3 uid="uid://bu41l7ubqvvjc"]
+
+[ext_resource type="Shader" uid="uid://tkchpxxhhajr" path="res://Resources/cloud_shader.tres" id="1_70g6x"]
+
+[sub_resource type="Curve" id="Curve_s65o0"]
+max_value = 6.0
+_data = [Vector2(0.0366197, 0.991219), 0.0, 0.0, 0, 0, Vector2(0.146479, 1.54775), 0.0, 0.0, 0, 0, Vector2(0.321127, 3.13172), 6.16118, 6.16118, 0, 0, Vector2(0.48169, 4.54446), 0.0, 0.0, 0, 0, Vector2(0.760563, 5.44347), 0.0, 0.0, 0, 0, Vector2(0.991549, 2.36114), 0.0, 0.0, 0, 0]
+point_count = 6
+
+[sub_resource type="CurveTexture" id="CurveTexture_e8gpr"]
+curve = SubResource("Curve_s65o0")
+
+[resource]
+shader = ExtResource("1_70g6x")
+shader_parameter/TextureScale = Vector3(0.1, 0.1, 0.1)
+shader_parameter/SunColor = Color(0.91, 0.644887, 0.4914, 0.0313726)
+shader_parameter/CloudLining = 0.4
+shader_parameter/Albedo = Color(0.255659, 0.255659, 0.255659, 1)
+shader_parameter/CloudProfile = SubResource("CurveTexture_e8gpr")

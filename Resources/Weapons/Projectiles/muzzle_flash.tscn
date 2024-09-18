@@ -1,0 +1,11 @@
+[gd_scene load_steps=3 format=3 uid="uid://p2ke40ubdrs"]
+
+[ext_resource type="PackedScene" uid="uid://bnumi2iedw464" path="res://Resources/Weapons/Projectiles/muzzle_flash.glb" id="1_wu5uk"]
+[ext_resource type="Material" uid="uid://db14mhubenpt6" path="res://Resources/Weapons/Projectiles/muzzleflash_material.tres" id="2_whncy"]
+
+[node name="muzzle_flash" instance=ExtResource("1_wu5uk")]
+
+[node name="Cube_001" parent="." index="0"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, -0.0819865)
+cast_shadow = 0
+surface_material_override/0 = ExtResource("2_whncy")

@@ -1,0 +1,22 @@
+[gd_scene load_steps=2 format=3 uid="uid://0t717kdt263i"]
+
+[ext_resource type="PackedScene" uid="uid://djpswpig36bx8" path="res://Resources/Ships/arbalest_front.glb" id="1_nd36a"]
+
+[node name="shipeditor_root" type="Node3D"]
+
+[node name="editor_ui_root" type="MarginContainer" parent="."]
+offset_right = 943.0
+offset_bottom = 522.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="shiplist" type="MarginContainer" parent="editor_ui_root"]
+custom_minimum_size = Vector2(300, 0)
+layout_mode = 2
+size_flags_horizontal = 0
+
+[node name="ItemList" type="ItemList" parent="editor_ui_root/shiplist"]
+layout_mode = 2
+
+[node name="arbalest_front" parent="." instance=ExtResource("1_nd36a")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -1.13428, 0, 0.903575)
